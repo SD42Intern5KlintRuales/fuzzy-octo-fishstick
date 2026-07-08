@@ -21,9 +21,10 @@ export const authApi = {
     login: (email: string, password: string) => 
         api.post("/auth/login", {email, password}),
 
-    register: (name: string, email: string, password: string) =>
+    register: (firstName: string, lastName: string, email: string, password: string) =>
         api.post("/auth/register", {
-            name,
+            firstName,
+            lastName,
             email,
             password
         }),

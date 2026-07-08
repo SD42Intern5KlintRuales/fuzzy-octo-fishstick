@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -15,15 +15,20 @@ import { authApi } from "@/api/api";
 export default function Register() {
   const navigate = useNavigate();
 
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const register = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    if(password !== confirmPassword){
+      alert("Passwords do not match");
+      return;
+    }
     try {
-        await authApi.register(name, email, password);
+        await authApi.register(firstName, lastName, email, password);
         alert("Registration successful");
         navigate("/");
     } catch {
@@ -44,9 +49,15 @@ export default function Register() {
         <CardContent>
           <form onSubmit={register} className="space-y-4">
             <Input
-              placeholder="Full Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              placeholder="First Name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+
+            <Input
+              placeholder="Last Name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
             />
 
             <Input
@@ -61,6 +72,13 @@ export default function Register() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <Input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
 
             <Button type="submit" className="w-full">
