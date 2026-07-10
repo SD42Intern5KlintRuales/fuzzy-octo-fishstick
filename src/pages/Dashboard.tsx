@@ -1,22 +1,34 @@
-import Sidebar from "@/components/layout/Sidebar";
-import Topbar from "@/components/layout/Topbar";
+import { useEffect, useState } from "react";
+import MainLayout from "@/components/layout/MainLayout";
 import WelcomeCard from "@/components/dashboard/WelcomeCard";
 import StatsSection from "@/components/dashboard/StatsSection";
 
+import { taskApi } from "@/services/taskApi";
+import type { DashboardResponse } from "@/types/dashboard";
+
 export default function Dashboard() {
+  const [stats, setStats] =
+    useState<DashboardResponse | null>(null);
+
+  useEffect(() => {
+    const loadDashboard = async () => {
+      try {
+        const response =
+          await taskApi.getDashboard();
+
+        setStats(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadDashboard();
+  }, []);
+
   return (
-    <div className="flex min-h-screen bg-slate-100">
-      <Sidebar />
-
-      <main className="flex-1 p-6">
-        <Topbar />
-
-        <div className="mt-6 space-y-6">
-          <WelcomeCard />
-
-          <StatsSection />
-        </div>
-      </main>
-    </div>
+    <MainLayout>
+      <WelcomeCard />
+      <StatsSection data={stats} />
+    </MainLayout>
   );
 }

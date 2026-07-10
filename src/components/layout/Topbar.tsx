@@ -1,29 +1,37 @@
-import { Bell, Search } from "lucide-react";
+import { Search, Bell, CalendarDays } from "lucide-react";
 
 export default function Topbar() {
   return (
-    <header className="flex items-center justify-between rounded-lg bg-white p-4 shadow-sm">
-      <div className="relative">
-        <Search
-          size={18}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-        />
+    <header className="h-24 bg-white shadow-lg flex items-center gap-9 px-16 max-lg:px-8 max-md:h-auto max-md:flex-wrap max-md:py-5">
+      <h1 className="text-2xl font-extrabold whitespace-nowrap">
+        <span className="text-blue-600">Dash</span>board
+      </h1>
 
+      <div className="flex flex-1 max-w-[610px] h-11 bg-[#f7f8fc] shadow-xl rounded overflow-hidden ml-24 max-xl:ml-6 max-md:order-3 max-md:w-full max-md:max-w-none max-md:ml-0">
         <input
           type="text"
-          placeholder="Search tasks..."
-          className="w-80 rounded-lg border pl-10 pr-4 py-2 outline-none"
+          placeholder="Search your task here..."
+          className="flex-1 bg-transparent px-5 text-xs outline-none"
         />
+
+        <button className="w-12 bg-[#2f3a8f] text-white grid place-items-center">
+          <Search size={18} />
+        </button>
       </div>
 
-      <div className="flex items-center gap-4">
-        <button className="rounded-lg border p-2">
-          <Bell size={18} />
+      <div className="flex items-center gap-3">
+        <button className="w-8 h-8 rounded-md bg-[#2f3a8f] text-white grid place-items-center">
+          <Bell size={15} />
         </button>
 
-        <span className="text-sm text-gray-500">
-          {new Date().toLocaleDateString()}
-        </span>
+        <button className="w-8 h-8 rounded-md bg-[#2f3a8f] text-white grid place-items-center">
+          <CalendarDays size={15} />
+        </button>
+
+        <div className="ml-4 text-[11px] flex flex-col">
+          <strong>Tuesday</strong>
+          <span className="text-sky-500">20/06/2023</span>
+        </div>
       </div>
     </header>
   );

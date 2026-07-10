@@ -1,12 +1,9 @@
-export default function WelcomeCard(){
-    return(
-        <div className="rounded-xl bg-white p-6 shadow-sm">
-            <h1 className="text-3xl font-bold ">
-                Welcome Back, Klint
-            </h1>
-            <p className="mt-2">
-                Here is an overview of your tasks
-            </p>
-        </div>
-    );
+export default function WelcomeHeader() {
+  return (
+    <div className="mb-4">
+      <h2 className="text-3xl font-bold max-md:text-2xl">
+        Welcome back, Klint-san 👋
+      </h2>
+    </div>
+  );
 }

@@ -1,3 +1,7 @@
+import { useEffect } from "react";
+import { useAuthStore } from "@/store/useAuthStore";
+import { Link } from "react-router-dom";
+
 import {
   LayoutDashboard,
   CheckSquare,
@@ -6,9 +10,25 @@ import {
 } from "lucide-react";
 
 export default function Sidebar() {
+  const {
+    user,
+    fetchUser,
+    logout,
+  } = useAuthStore();
+
+  useEffect(() => {
+    if (!user) {
+      fetchUser();
+    }
+  }, [user, fetchUser]);
+
+  const handleLogout = () => {
+    logout();
+    window.location.href = "/login";
+  };
+
   return (
-    <aside className="flex h-screen w-64 flex-col bg-indigo-900 text-white">
-      {/* Profile */}
+    <aside className="flex h-screen w-64 flex-shrink-0 flex-col bg-indigo-900 text-white">
       <div className="flex flex-col items-center border-b border-indigo-800 p-6">
         <img
           src="https://i.pravatar.cc/100"
@@ -16,40 +36,47 @@ export default function Sidebar() {
           className="h-16 w-16 rounded-full"
         />
 
-        <h2 className="text-gray-200">
-          klint@example.com
+        <h2 className="mt-3 text-center font-semibold">
+          {user
+            ? `${user.firstName} ${user.lastName}`
+            : "Loading..."}
         </h2>
+
+        <p className="text-center text-sm text-gray-200">
+          {user?.email ?? ""}
+        </p>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 p-4">
         <ul className="space-y-2">
           <li>
-            <button className="flex w-full items-center gap-3 rounded-lg bg-white px-4 py-3 text-indigo-900">
+            <Link to="/dashboard" className="flex w-full items-center gap-3 rounded-lg bg-white px-4 py-3 text-indigo-900">
               <LayoutDashboard size={18} />
               Dashboard
-            </button>
+            </Link>
           </li>
 
           <li>
-            <button className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-indigo-800">
+            <Link to="/mytasks" className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-indigo-800">
               <CheckSquare size={18} />
               My Tasks
-            </button>
+            </Link>
           </li>
 
           <li>
-            <button className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-indigo-800">
+            <Link to="/categories" className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-indigo-800">
               <FolderKanban size={18} />
               Categories
-            </button>
+            </Link>
           </li>
         </ul>
       </nav>
 
-      {/* Logout */}
       <div className="p-4">
-        <button className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-indigo-800">
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-indigo-800"
+        >
           <LogOut size={18} />
           Logout
         </button>
