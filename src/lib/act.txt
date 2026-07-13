@@ -457,3 +457,5 @@ After completing this activity, the intern should understand how to:
 - Use configurable validation rules
 - Return structured validation results
 - Display validation results in a user-friendly UI
+
+https://claude.ai/share/cc3a6733-3d17-48ed-bedb-3e05bf153e6b
