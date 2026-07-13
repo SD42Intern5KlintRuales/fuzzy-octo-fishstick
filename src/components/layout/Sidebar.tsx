@@ -6,6 +6,8 @@ import {
   LayoutDashboard,
   CheckSquare,
   FolderKanban,
+  Grid2X2,
+  LayoutDashboardIcon,
   LogOut,
 } from "lucide-react";
 
@@ -50,23 +52,30 @@ export default function Sidebar() {
       <nav className="flex-1 p-4">
         <ul className="space-y-2">
           <li>
-            <Link to="/dashboard" className="flex w-full items-center gap-3 rounded-lg bg-white px-4 py-3 text-indigo-900">
+            <Link to="/dashboard" className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-black">
               <LayoutDashboard size={18} />
               Dashboard
             </Link>
           </li>
 
           <li>
-            <Link to="/mytasks" className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-indigo-800">
+            <Link to="/mytasks" className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-black">
               <CheckSquare size={18} />
               My Tasks
             </Link>
           </li>
 
           <li>
-            <Link to="/categories" className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-indigo-800">
-              <FolderKanban size={18} />
-              Categories
+            <Link to="/eisenhower" className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-black">
+              <Grid2X2 size={18} />
+              Eisenhower
+            </Link>
+          </li>
+
+          <li>
+            <Link to="/tasklogs" className="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-black">
+              <LayoutDashboard size={18} />
+              TaskLogs
             </Link>
           </li>
         </ul>

@@ -1,0 +1,10 @@
+{
+  "fileType": "RELEASE_NOTES",
+  "sheet": "Product_ReleaseCheckpoints",
+  "row": 12,
+  "fieldName": "Result",
+  "cell": "D12",
+  "validationType": "REQUIRED",
+  "status": "FAIL",
+  "message": "Checkpoint exists but Result is missing"
+}

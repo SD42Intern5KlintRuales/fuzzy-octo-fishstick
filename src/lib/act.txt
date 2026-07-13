@@ -1,0 +1,459 @@
+Activity Title
+Release Document Required Field Validation Tool
+
+Objective
+Create a web-based automation tool that validates uploaded Excel files and checks whether required fields contain inputs.
+
+The tool should not validate every cell in the Excel file. It should only validate the required fields configured in the validation rules.
+
+There are 2 Excel files that need to be supported:
+1. Release Notes
+2. Test Specification/Result
+
+Current Sample File Used
+File Name: Support SC077-51 Final Release Notes.xlsx
+Detected Sheets:
+- ReleaseNote
+- Product_ReleaseCheckpoints
+- ReleaseDetailsHistory
+
+Main Validation Concept
+The tool should check if required cells or required row fields have content.
+
+Example:
+If the required field is ReleaseNote!R3, the tool should check if R3 has a value.
+
+If R3 has a value:
+Result: PASS
+
+If R3 is blank:
+Result: FAIL
+Message: Missing required input for Approved By
+
+Important Rule
+The validation should be configurable.
+Avoid hardcoding all required cells directly in the source code.
+Use a JSON configuration file so that required fields can be updated easily.
+
+Recommended Validation Rules for Release Notes File
+
+1. Sheet: ReleaseNote
+Required Fields:
+- Project Name
+  - Cell: E2
+  - Expected check: Must not be blank
+
+- Release Purpose
+  - Cell: E3
+  - Expected check: Must not be blank
+
+- Release Date
+  - Cell: E4
+  - Expected check: Must not be blank and should be a valid date
+
+- Prepared By
+  - Cell: L3
+  - Expected check: Must not be blank
+
+- Confirmed By
+  - Cell: O3
+  - Expected check: Must not be blank
+
+- Approved By
+  - Cell: R3
+  - Expected check: Must not be blank
+
+- Branch Name
+  - Cell: B12
+  - Expected check: Must not be blank
+
+- Version
+  - Cell: L12
+  - Expected check: Must not be blank
+
+- Changes
+  - Cell: B14
+  - Expected check: Must not be blank
+
+- Supported Languages
+  - Cell: B16
+  - Expected check: Must not be blank
+
+- Supported Machine(s)/Environment(s)
+  - Cell: B18
+  - Expected check: Must not be blank
+
+- Limitations
+  - Cell: B20
+  - Expected check: Must not be blank
+
+Notes:
+- Values such as N/A or - may be accepted as valid input if the field is intentionally not applicable.
+- The tool should only fail the field if the cell is empty, null, or contains only spaces.
+
+2. Sheet: Product_ReleaseCheckpoints
+Required Fields:
+- Category
+  - Column: B
+  - Starting Row: 4
+  - Expected check: Must not be blank for checkpoint rows
+
+- Checkpoint
+  - Column: C
+  - Starting Row: 4
+  - Expected check: Must not be blank
+
+- Results
+  - Column: D
+  - Starting Row: 4
+  - Expected check: Must not be blank
+
+Recommended dynamic row validation:
+- Start checking from row 4.
+- Continue checking rows while Category, Checkpoint, or Result contains data.
+- If a row has a Checkpoint but no Result, mark it as FAIL.
+- If a row has a Result but no Checkpoint, mark it as FAIL.
+- If Category is only written once for a group, the tool may allow blank Category cells in the next rows, as long as Checkpoint and Result are filled.
+
+Example from sample file:
+- B4: Codebase
+- C4: ServiceEngine should build successfully.
+- D4: ✓
+- C5: JaCoCo coverage should be 60% up
+- D5: ✓
+- C6: All Unit Tests should pass
+- D6: ✓
+
+3. Sheet: ReleaseDetailsHistory
+Required Fields:
+- Release Date
+  - Cell: C3
+  - Expected check: Must not be blank and should be a valid date
+
+- Version
+  - Cell: C4
+  - Expected check: Must not be blank
+
+- Implemented function(s)/Fixed defect(s)
+  - Cell: C5
+  - Expected check: Must not be blank
+
+- Known defect(s)/limitation(s)
+  - Cell: C7
+  - Expected check: Must not be blank
+
+- Note(s)
+  - Cell: C8
+  - Expected check: Must not be blank
+
+Notes:
+- If implemented functions span multiple rows, the tool should check that at least the first configured cell has content.
+- Optional enhancement: combine C5 to C6 or detect all rows between Implemented function(s)/Fixed defect(s) and Known defect(s)/limitation(s).
+
+Recommended Validation Rules for Test Specification/Result File
+Since the sample Test Specification/Result file was not provided yet, the exact sheet names and cell addresses should be configured after checking its template.
+
+Suggested fields to validate once the file is available:
+- Project Name
+- Test Target / Test Item
+- Test Environment
+- Test Date
+- Tester
+- Reviewer / Confirmed By
+- Test Case ID
+- Test Case Description
+- Expected Result
+- Actual Result
+- Test Result
+- Remarks / Notes
+
+Recommended JSON Configuration Example
+
+{
+  "files": [
+    {
+      "fileType": "RELEASE_NOTES",
+      "requiredSheets": [
+        "ReleaseNote",
+        "Product_ReleaseCheckpoints",
+        "ReleaseDetailsHistory"
+      ],
+      "cellRules": [
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Project Name",
+          "cell": "E2",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Release Purpose",
+          "cell": "E3",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Release Date",
+          "cell": "E4",
+          "validationType": "REQUIRED_DATE"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Prepared By",
+          "cell": "L3",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Confirmed By",
+          "cell": "O3",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Approved By",
+          "cell": "R3",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Branch Name",
+          "cell": "B12",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Version",
+          "cell": "L12",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Changes",
+          "cell": "B14",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Supported Languages",
+          "cell": "B16",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Supported Machine(s)/Environment(s)",
+          "cell": "B18",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Limitations",
+          "cell": "B20",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseDetailsHistory",
+          "fieldName": "Release Date",
+          "cell": "C3",
+          "validationType": "REQUIRED_DATE"
+        },
+        {
+          "sheet": "ReleaseDetailsHistory",
+          "fieldName": "Version",
+          "cell": "C4",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseDetailsHistory",
+          "fieldName": "Implemented function(s)/Fixed defect(s)",
+          "cell": "C5",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseDetailsHistory",
+          "fieldName": "Known defect(s)/limitation(s)",
+          "cell": "C7",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseDetailsHistory",
+          "fieldName": "Note(s)",
+          "cell": "C8",
+          "validationType": "REQUIRED"
+        }
+      ],
+      "tableRules": [
+        {
+          "sheet": "Product_ReleaseCheckpoints",
+          "tableName": "Release Checkpoints",
+          "startRow": 4,
+          "columns": [
+            {
+              "fieldName": "Category",
+              "column": "B",
+              "required": false,
+              "remarks": "Required only for the first row of a category group. Blank category may be allowed for succeeding checkpoint rows."
+            },
+            {
+              "fieldName": "Checkpoint",
+              "column": "C",
+              "required": true
+            },
+            {
+              "fieldName": "Result",
+              "column": "D",
+              "required": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+Expected API Endpoint
+POST /api/validate-documents
+
+Request:
+- releaseNotesFile: Excel file
+- testSpecificationResultFile: Excel file
+
+Sample Response:
+
+{
+  "overallStatus": "FAILED",
+  "filesChecked": 2,
+  "totalChecks": 20,
+  "passed": 18,
+  "failed": 2,
+  "results": [
+    {
+      "fileType": "RELEASE_NOTES",
+      "sheet": "ReleaseNote",
+      "fieldName": "Approved By",
+      "cell": "R3",
+      "status": "PASS"
+    },
+    {
+      "fileType": "RELEASE_NOTES",
+      "sheet": "ReleaseNote",
+      "fieldName": "Supported Machine(s)/Environment(s)",
+      "cell": "B18",
+      "status": "PASS"
+    },
+    {
+      "fileType": "TEST_SPECIFICATION_RESULT",
+      "sheet": "To be configured",
+      "fieldName": "Actual Result",
+      "cell": "To be configured",
+      "status": "FAIL",
+      "message": "Required value is missing"
+    }
+  ]
+}
+
+Validation Logic Summary
+1. Upload the required Excel files.
+2. Identify the document type.
+3. Check if required sheets exist.
+4. Load validation rules from the JSON configuration file.
+5. For each configured cell rule:
+   - Read the cell value.
+   - Trim spaces.
+   - If the value is empty, mark as FAIL.
+   - If the value exists, mark as PASS.
+6. For each configured table rule:
+   - Start from the configured row.
+   - Read each row until the table ends.
+   - Validate required columns.
+   - Add PASS or FAIL result per row field.
+7. Return a structured validation summary to the frontend.
+
+Recommended Technology Stack
+
+Frontend:
+- React
+- TypeScript
+- Vite
+- Material UI
+- Axios
+
+Backend:
+- Java 21
+- Spring Boot
+- Maven
+- Apache POI
+
+Required Tools to Install
+
+Frontend Development:
+- Node.js LTS
+- npm
+- Visual Studio Code
+- React Developer Tools browser extension
+
+Backend Development:
+- Java JDK 21
+- IntelliJ IDEA or Visual Studio Code
+- Maven
+- Spring Boot
+- Apache POI
+
+API Testing:
+- Postman or Thunder Client
+
+Version Control:
+- Git
+- GitHub or GitLab
+
+Excel Testing:
+- Microsoft Excel or LibreOffice Calc
+
+Intern Deliverables
+
+1. Requirements Analysis Document
+- Identify the 2 Excel files to validate.
+- Identify required sheets.
+- Identify required fields.
+- Define validation assumptions.
+
+2. Validation Rules Configuration
+- Create validation-rules.json.
+- Separate rules by file type.
+- Include sheet name, field name, cell address, and validation type.
+
+3. Backend Design
+- API Contract
+- Class Diagram
+- Validation Service Design
+- Excel Reader Utility Design
+
+4. Frontend Design
+- Upload screen for 2 Excel files
+- Validation result summary screen
+- Detailed validation result table
+- Error message display
+
+5. Implementation
+- React + TypeScript frontend
+- Spring Boot backend
+- Apache POI Excel validation logic
+- JSON-based configurable validation rules
+
+6. Demo
+The intern should demonstrate:
+- Uploading a valid Release Notes file
+- Uploading a Release Notes file with missing required fields
+- Displaying passed and failed validation results
+- Showing summary statistics
+- Explaining how to update validation-rules.json
+
+Suggested Learning Outcome
+After completing this activity, the intern should understand how to:
+- Upload multiple files from a frontend application
+- Send files to a backend API
+- Read Excel files using Java Apache POI
+- Validate specific cells and table rows
+- Use configurable validation rules
+- Return structured validation results
+- Display validation results in a user-friendly UI

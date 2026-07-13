@@ -2,9 +2,9 @@ import { Search, Bell, CalendarDays } from "lucide-react";
 
 export default function Topbar() {
   return (
-    <header className="h-24 bg-white shadow-lg flex items-center gap-9 px-16 max-lg:px-8 max-md:h-auto max-md:flex-wrap max-md:py-5">
+    <header className="h-16 bg-white shadow-lg flex items-center gap-9 px-16 max-lg:px-8 max-md:h-auto max-md:flex-wrap max-md:py-5">
       <h1 className="text-2xl font-extrabold whitespace-nowrap">
-        <span className="text-blue-600">Dash</span>board
+        <span className="text-blue-600">Task</span>Ma
       </h1>
 
       <div className="flex flex-1 max-w-[610px] h-11 bg-[#f7f8fc] shadow-xl rounded overflow-hidden ml-24 max-xl:ml-6 max-md:order-3 max-md:w-full max-md:max-w-none max-md:ml-0">

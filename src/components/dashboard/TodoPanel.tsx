@@ -1,5 +1,16 @@
 import { useEffect, useState } from "react";
-import { ClipboardList } from "lucide-react";
+
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
+
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import AddIcon from "@mui/icons-material/Add";
+
 import TaskCard from "./TaskCard";
 import AddTaskModal from "../tasks/AddTaskModal";
 
@@ -22,7 +33,10 @@ export default function TodoPanel() {
 
       setTasks(todoTasks);
     } catch (error) {
-      console.error("Failed to load tasks:", error);
+      console.error(
+        "Failed to load tasks:",
+        error
+      );
     }
   };
 
@@ -32,45 +46,81 @@ export default function TodoPanel() {
 
   return (
     <>
-      <section className="bg-[#f5f7ff] rounded-xl shadow-xl p-5">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <ClipboardList
-                size={18}
-                className="text-[#2f3a8f]"
-              />
-
-              <h3 className="text-red-500 text-sm font-semibold">
-                To-Do
-              </h3>
-            </div>
-          </div>
-
-          <button
-            onClick={() => setOpen(true)}
-            className="text-[11px] text-gray-400 hover:text-red-500"
+      <Card
+        elevation={3}
+        sx={{
+          borderRadius: 3,
+        }}
+      >
+        <CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              mb: 3,
+            }}
           >
-            <span className="text-red-500">+</span>
-            Add task
-          </button>
-        </div>
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <AssignmentIcon
+                  sx={{
+                    color: "#2f3a8f",
+                  }}
+                />
 
-        <div className="flex flex-col gap-5">
-          {tasks.length === 0 ? (
-            <p className="text-sm text-gray-500">
-              No tasks found.
-            </p>
-          ) : (
-            tasks.map((task) => (
-              <TaskCard
-                key={task.taskId}
-                task={task}
-              />
-            ))
-          )}
-        </div>
-      </section>
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    color: "error.main",
+                    fontWeight: 600,
+                  }}
+                >
+                  To-Do
+                </Typography>
+              </Box>
+            </Box>
+
+            <Button
+              size="small"
+              startIcon={<AddIcon />}
+              onClick={() => setOpen(true)}
+            >
+              Add Task
+            </Button>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
+          >
+            {tasks.length === 0 ? (
+              <Typography
+                variant="body2"
+                color="text.secondary"
+              >
+                No tasks found.
+              </Typography>
+            ) : (
+              tasks.map((task) => (
+                <TaskCard
+                  key={task.taskId}
+                  task={task}
+                />
+              ))
+            )}
+          </Box>
+        </CardContent>
+      </Card>
 
       <AddTaskModal
         open={open}

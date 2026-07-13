@@ -1,0 +1,31 @@
+{
+  "overallStatus": "FAILED",
+  "filesChecked": 2,
+  "totalChecks": 20,
+  "passed": 18,
+  "failed": 2,
+  "results": [
+    {
+      "fileType": "RELEASE_NOTES",
+      "sheet": "ReleaseNote",
+      "fieldName": "Approved By",
+      "cell": "R3",
+      "status": "PASS"
+    },
+    {
+      "fileType": "RELEASE_NOTES",
+      "sheet": "ReleaseNote",
+      "fieldName": "Supported Machine(s)/Environment(s)",
+      "cell": "B18",
+      "status": "PASS"
+    },
+    {
+      "fileType": "TEST_SPECIFICATION_RESULT",
+      "sheet": "To be configured",
+      "fieldName": "Actual Result",
+      "cell": "To be configured",
+      "status": "FAIL",
+      "message": "Required value is missing"
+    }
+  ]
+}

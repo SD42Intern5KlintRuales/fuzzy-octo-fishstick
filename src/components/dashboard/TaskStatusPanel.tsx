@@ -1,5 +1,13 @@
-import type { DashboardResponse } from "@/types/dashboard";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
+
 import StatusCircle from "./StatusCircle";
+
+import type { DashboardResponse } from "@/types/dashboard";
 
 interface Props {
   data: DashboardResponse | null;
@@ -20,7 +28,9 @@ export default function TaskStatusPanel({
   const progressPercentage =
     totalTasks > 0
       ? Math.round(
-          ((data?.inProgressTasks ?? 0) / totalTasks) * 100
+          ((data?.inProgressTasks ?? 0) /
+            totalTasks) *
+            100
         )
       : 0;
 
@@ -32,36 +42,61 @@ export default function TaskStatusPanel({
       : 0;
 
   return (
-    <section className="rounded-xl bg-[#f5f7ff] p-5 shadow-xl">
-      <div className="mb-5 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-red-500">
-          Task Status
-        </h3>
+    <Card elevation={3}>
+      <CardContent>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 4,
+          }}
+        >
+          <Typography
+            variant="h6"
+            color="error"
+          >
+            Task Status
+          </Typography>
 
-        <span className="text-xs text-gray-500">
-          Total: {totalTasks}
-        </span>
-      </div>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+          >
+            Total: {totalTasks}
+          </Typography>
+        </Box>
 
-      <div className="flex flex-wrap justify-center gap-8">
-        <StatusCircle
-          value={donePercentage}
-          label={`Done (${data?.doneTasks ?? 0})`}
-          color="#22c55e"
-        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 4,
+          }}
+        >
+          <StatusCircle
+            value={donePercentage}
+            label={`Done (${data?.doneTasks ?? 0})`}
+            color="#22c55e"
+          />
 
-        <StatusCircle
-          value={progressPercentage}
-          label={`Progress (${data?.inProgressTasks ?? 0})`}
-          color="#3b82f6"
-        />
+          <StatusCircle
+            value={progressPercentage}
+            label={`Progress (${
+              data?.inProgressTasks ?? 0
+            })`}
+            color="#3b82f6"
+          />
 
-        <StatusCircle
-          value={todoPercentage}
-          label={`To Do (${data?.todoTasks ?? 0})`}
-          color="#ef4444"
-        />
-      </div>
-    </section>
+          <StatusCircle
+            value={todoPercentage}
+            label={`To Do (${data?.todoTasks ?? 0})`}
+            color="#ef4444"
+          />
+        </Box>
+      </CardContent>
+    </Card>
   );
 }

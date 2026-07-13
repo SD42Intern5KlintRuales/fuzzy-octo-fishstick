@@ -4,16 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { authApi } from "../api/api";
 import { useAuthStore } from "../store/useAuthStore";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
 import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+  TextField,
+  Typography,
+  Button,
+  Box,
+} from "@mui/material";
+
+import LoginIcon from "@mui/icons-material/Login";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -35,7 +36,6 @@ export default function Login() {
       );
 
       await loginStore(data.token);
-
       navigate("/dashboard");
     } catch {
       alert("Invalid credentials");
@@ -43,33 +43,40 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/30 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-
-          <CardDescription>
-            Enter your credentials to continue
-          </CardDescription>
-        </CardHeader>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        bgcolor: "#f5f5f5",
+        p: 2,
+      }}
+    >
+      <Card sx={{ width: 450 }}>
+        <CardHeader
+          title="Login"
+          subheader="Enter your credentials to continue"
+        />
 
         <CardContent>
-          <form
-            onSubmit={login}
-            className="space-y-4"
-          >
-            <Input
+          <form onSubmit={login}>
+            <TextField
+              label="Email"
               type="email"
-              placeholder="Email"
+              fullWidth
+              margin="normal"
               value={email}
               onChange={(e) =>
                 setEmail(e.target.value)
               }
             />
 
-            <Input
+            <TextField
+              label="Password"
               type="password"
-              placeholder="Password"
+              fullWidth
+              margin="normal"
               value={password}
               onChange={(e) =>
                 setPassword(e.target.value)
@@ -77,24 +84,34 @@ export default function Login() {
             />
 
             <Button
+              fullWidth
               type="submit"
-              className="w-full"
+              variant="contained"
+              startIcon={<LoginIcon />}
+              sx={{
+                mt: 2,
+                height: 48,
+                borderRadius: 2,
+                textTransform: "none",
+                fontWeight: 600,
+              }}
             >
               Login
             </Button>
           </form>
 
-          <div className="mt-4 text-center text-sm">
+          <Typography
+            variant="body2"
+            align="center"
+            sx={{ mt: 2 }}
+          >
             Don't have an account?{" "}
-            <Link
-              to="/register"
-              className="text-primary underline-offset-4 hover:underline"
-            >
+            <Link to="/register">
               Register
             </Link>
-          </div>
+          </Typography>
         </CardContent>
       </Card>
-    </div>
+    </Box>
   );
 }

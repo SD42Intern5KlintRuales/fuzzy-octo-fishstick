@@ -1,0 +1,8 @@
+{
+  "fileType": "RELEASE_NOTES",
+  "sheet": "ReleaseNote",
+  "fieldName": "Approved By",
+  "cell": "R3",
+  "validationType": "REQUIRED",
+  "status": "PASS"
+}

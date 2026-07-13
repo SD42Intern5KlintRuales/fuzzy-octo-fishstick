@@ -20,18 +20,32 @@ export const TaskPriority = {
 export type TaskPriority =
     (typeof TaskPriority)[keyof typeof TaskPriority];
 
-export interface TaskRequest{
+export const EisenhowerQuadrant = {
+    DO_FIRST: "DO_FIRST",
+    DECIDE: "DECIDE",
+    DELEGATE: "DELEGATE",
+    DELETE: "DELETE",
+} as const;
+
+export type EisenhowerQuadrant =
+    (typeof EisenhowerQuadrant)[keyof typeof EisenhowerQuadrant];
+
+export interface TaskRequest {
     title: string;
     description: string;
-    priority: TaskPriority
+    priority: TaskPriority;
     dueDate: string;
 }
 
-export interface ChangeStatusRequest{
+export interface ChangeStatusRequest {
     status: TaskStatus;
 }
 
-export interface TaskResponse{
+export interface ChangeEisenhowerRequest {
+    quadrant: EisenhowerQuadrant;
+}
+
+export interface TaskResponse {
     taskId: string;
     title: string;
     description: string;
@@ -41,20 +55,54 @@ export interface TaskResponse{
     createdAt: string;
     updatedAt: string;
     userId: string;
+
+    eisenhowerQuadrant: EisenhowerQuadrant | null;
+    urgent: boolean | null;
+    important: boolean | null;
 }
 
+export type EisenhowerAnalyticsResponse = Record<EisenhowerQuadrant, number>;
 
 export const taskApi = {
-    getDashboard: () => api.get<DashboardResponse>("/users/tasks/dashboard"),
-    getTasks: () => api.get<TaskResponse[]>("/users/tasks"),
-    getTask: (taskId: string) => api.get<TaskResponse>(`/tasks/${taskId}`),
-    createTask: (data: TaskRequest) => api.post<TaskResponse>("/users/tasks", data),
-    updateTask: (taskId: string, data: TaskRequest) => api.put<TaskResponse>(`/tasks/${taskId}`, data),
+    getDashboard: () =>
+        api.get<DashboardResponse>("/users/tasks/dashboard"),
+
+    getTasks: () =>
+        api.get<TaskResponse[]>("/users/tasks"),
+
+    getTask: (taskId: string) =>
+        api.get<TaskResponse>(`/tasks/${taskId}`),
+
+    createTask: (data: TaskRequest) =>
+        api.post<TaskResponse>("/users/tasks", data),
+
+    updateTask: (taskId: string, data: TaskRequest) =>
+        api.put<TaskResponse>(`/tasks/${taskId}`, data),
 
     changeStatus: (
         taskId: string,
         data: ChangeStatusRequest
-    ) => api.patch<TaskResponse>(`/tasks/${taskId}/status`, data),
+    ) =>
+        api.patch<TaskResponse>(`/tasks/${taskId}/status`, data),
 
-    deleteTask: (taskId: string) => api.delete(`/tasks/${taskId}`),
-}
+    changeEisenhower: (
+        taskId: string,
+        data: ChangeEisenhowerRequest
+    ) =>
+        api.patch<TaskResponse>(`/tasks/${taskId}/eisenhower`, data),
+
+    getTasksByEisenhowerQuadrant: (
+        quadrant: EisenhowerQuadrant
+    ) =>
+        api.get<TaskResponse[]>(
+            `/users/tasks/eisenhower?quadrant=${quadrant}`
+        ),
+
+    getEisenhowerAnalytics: () =>
+        api.get<EisenhowerAnalyticsResponse>(
+            "/users/tasks/eisenhower/analytics"
+        ),
+
+    deleteTask: (taskId: string) =>
+        api.delete(`/tasks/${taskId}`),
+};

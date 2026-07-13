@@ -1,0 +1,194 @@
+{
+  "files": [
+    {
+      "fileType": "RELEASE_NOTES",
+      "requiredSheets": [
+        "ReleaseNote",
+        "Product_ReleaseCheckpoints",
+        "ReleaseDetailsHistory"
+      ],
+      "cellRules": [
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Project Name",
+          "cell": "E2",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Release Purpose",
+          "cell": "E3",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Release Date",
+          "cell": "E4",
+          "validationType": "REQUIRED_DATE"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Prepared By",
+          "cell": "L3",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Confirmed By",
+          "cell": "O3",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Approved By",
+          "cell": "R3",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Branch Name",
+          "cell": "B12",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Version",
+          "cell": "L12",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Changes",
+          "cell": "B14",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Supported Languages",
+          "cell": "B16",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Supported Machine(s)/Environment(s)",
+          "cell": "B18",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseNote",
+          "fieldName": "Limitations",
+          "cell": "B20",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseDetailsHistory",
+          "fieldName": "Release Date",
+          "cell": "C3",
+          "validationType": "REQUIRED_DATE"
+        },
+        {
+          "sheet": "ReleaseDetailsHistory",
+          "fieldName": "Version",
+          "cell": "C4",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseDetailsHistory",
+          "fieldName": "Implemented function(s)/Fixed defect(s)",
+          "cell": "C5",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseDetailsHistory",
+          "fieldName": "Known defect(s)/limitation(s)",
+          "cell": "C7",
+          "validationType": "REQUIRED"
+        },
+        {
+          "sheet": "ReleaseDetailsHistory",
+          "fieldName": "Note(s)",
+          "cell": "C8",
+          "validationType": "REQUIRED"
+        }
+      ],
+      "tableRules": [
+        {
+          "sheet": "Product_ReleaseCheckpoints",
+          "tableName": "Release Checkpoints",
+          "validationType": "DYNAMIC_ROWS",
+          "startRow": 4,
+          "endCondition": "EMPTY_CHECKPOINT_AND_RESULT",
+          "columns": [
+            {
+              "fieldName": "Category",
+              "column": "B",
+              "required": false,
+              "allowInheritedValue": true,
+              "remarks": "Category may be blank for succeeding rows within the same category group."
+            },
+            {
+              "fieldName": "Checkpoint",
+              "column": "C",
+              "required": true
+            },
+            {
+              "fieldName": "Result",
+              "column": "D",
+              "required": true
+            }
+          ],
+          "rowValidationRules": [
+            {
+              "ruleName": "CheckpointRequiresResult",
+              "condition": "CHECKPOINT_HAS_VALUE",
+              "targetColumn": "D",
+              "validationType": "REQUIRED"
+            },
+            {
+              "ruleName": "ResultRequiresCheckpoint",
+              "condition": "RESULT_HAS_VALUE",
+              "targetColumn": "C",
+              "validationType": "REQUIRED"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fileType": "TEST_SPECIFICATION_RESULT",
+      "requiredSheets": [],
+      "cellRules": [],
+      "tableRules": [],
+      "status": "PENDING_TEMPLATE_CONFIGURATION",
+      "remarks": "Validation rules will be populated after the actual Test Specification/Result template is reviewed."
+    }
+  ],
+  "validationTypes": [
+    {
+      "name": "REQUIRED",
+      "description": "Cell must contain a non-empty value after trimming spaces."
+    },
+    {
+      "name": "REQUIRED_DATE",
+      "description": "Cell must contain a non-empty value and be a valid date."
+    },
+    {
+      "name": "DYNAMIC_ROWS",
+      "description": "Validate rows dynamically until table end condition is reached."
+    }
+  ],
+  "globalSettings": {
+    "trimWhitespace": true,
+    "treatNullAsEmpty": true,
+    "allowValues": [
+      "N/A",
+      "-",
+      "n/a"
+    ],
+    "emptyValues": [
+      "",
+      null
+    ]
+  }
+}
+
