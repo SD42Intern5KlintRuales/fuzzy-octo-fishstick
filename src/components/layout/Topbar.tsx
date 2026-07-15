@@ -1,38 +1,163 @@
-import { Search, Bell, CalendarDays } from "lucide-react";
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Typography,
+  IconButton,
+  OutlinedInput,
+  InputAdornment,
+} from "@mui/material";
+
+import SearchIcon from "@mui/icons-material/Search";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 export default function Topbar() {
+  const today = new Date();
+
+  const dayName = today.toLocaleDateString(
+    "en-US",
+    {
+      weekday: "long",
+    }
+  );
+
+  const date = today.toLocaleDateString("en-GB");
+
   return (
-    <header className="h-16 bg-white shadow-lg flex items-center gap-9 px-16 max-lg:px-8 max-md:h-auto max-md:flex-wrap max-md:py-5">
-      <h1 className="text-2xl font-extrabold whitespace-nowrap">
-        <span className="text-blue-600">Task</span>Ma
-      </h1>
+    <AppBar
+      position="static"
+      elevation={3}
+      sx={{
+        bgcolor: "white",
+        color: "black",
+      }}
+    >
+      <Toolbar
+        sx={{
+          minHeight: 64,
+          px: 4,
+          gap: 4,
+        }}
+      >
+        {/* Logo */}
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 800,
+            whiteSpace: "nowrap",
+          }}
+        >
+          <Box
+            component="span"
+            sx={{ color: "#2563eb" }}
+          >
+            Task
+          </Box>
+          Ma
+        </Typography>
 
-      <div className="flex flex-1 max-w-[610px] h-11 bg-[#f7f8fc] shadow-xl rounded overflow-hidden ml-24 max-xl:ml-6 max-md:order-3 max-md:w-full max-md:max-w-none max-md:ml-0">
-        <input
-          type="text"
-          placeholder="Search your task here..."
-          className="flex-1 bg-transparent px-5 text-xs outline-none"
-        />
+        {/* Search Bar */}
+        <Box
+          sx={{
+            flex: 1,
+            maxWidth: 610,
+            ml: 6,
+          }}
+        >
+          <OutlinedInput
+            fullWidth
+            placeholder="Search your task here..."
+            sx={{
+              height: 44,
+              bgcolor: "#f7f8fc",
+              borderRadius: 2,
 
-        <button className="w-12 bg-[#2f3a8f] text-white grid place-items-center">
-          <Search size={18} />
-        </button>
-      </div>
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "none",
+              },
+            }}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  sx={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 1,
+                    bgcolor: "#2f3a8f",
+                    color: "white",
 
-      <div className="flex items-center gap-3">
-        <button className="w-8 h-8 rounded-md bg-[#2f3a8f] text-white grid place-items-center">
-          <Bell size={15} />
-        </button>
+                    "&:hover": {
+                      bgcolor: "#243074",
+                    },
+                  }}
+                >
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </Box>
 
-        <button className="w-8 h-8 rounded-md bg-[#2f3a8f] text-white grid place-items-center">
-          <CalendarDays size={15} />
-        </button>
+        {/* Right Section */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1.5,
+          }}
+        >
+          <IconButton
+            sx={{
+              width: 36,
+              height: 36,
+              bgcolor: "#2f3a8f",
+              color: "white",
 
-        <div className="ml-4 text-[11px] flex flex-col">
-          <strong>Tuesday</strong>
-          <span className="text-sky-500">20/06/2023</span>
-        </div>
-      </div>
-    </header>
+              "&:hover": {
+                bgcolor: "#243074",
+              },
+            }}
+          >
+            <NotificationsIcon fontSize="small" />
+          </IconButton>
+
+          <IconButton
+            sx={{
+              width: 36,
+              height: 36,
+              bgcolor: "#2f3a8f",
+              color: "white",
+
+              "&:hover": {
+                bgcolor: "#243074",
+              },
+            }}
+          >
+            <CalendarMonthIcon fontSize="small" />
+          </IconButton>
+
+          <Box sx={{ ml: 2 }}>
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: 600,
+              }}
+            >
+              {dayName}
+            </Typography>
+
+            <Typography
+              variant="caption"
+              sx={{
+                color: "#0ea5e9",
+              }}
+            >
+              {date}
+            </Typography>
+          </Box>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }
